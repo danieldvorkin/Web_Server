@@ -15,8 +15,15 @@ loop do                                             # Server runs forever
   end
   puts lines                                        # Output the full request to stdout
 
-  filename = "index.html"
-  response = File.read(filename)
-	client.puts(response)
+  filename = lines[0].gsub(/GET \//, '').gsub(/\ HTTP.*/, '')
+
+  if File.exists?(filename)
+  	response_body = File.read(filename)
+	else
+  	response_body = "File Not Found\n" # need to indicate end of the string with \n
+	end
+
+	client.puts(response_body)
+	client.puts(Time.now.ctime)
   client.close                                      # Disconnect from the client
 end
