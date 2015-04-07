@@ -10,6 +10,7 @@ loop do                                             # Server runs forever
   client = server.accept                            # Wait for a client to connect. Accept returns a TCPSocket
 
   lines = []
+  headers = []
   while (line = client.gets.chomp) && !line.empty?  # Read the request and collect it until it's empty
     lines << line
   end
@@ -19,8 +20,18 @@ loop do                                             # Server runs forever
 
   if File.exists?(filename)
   	response_body = File.read(filename)
+  	headers << "HTTP/1.1 200 OK"
+  	headers << "Content-Type: text/html" # should reflect the appropriate content type (HTML, CSS, text, etc)
+		headers << "Content-Length: #{response_body.length}" # should be the actual size of the response body
+		headers << "Connection: close"
+		headers = headers.join("\r\n")
 	else
   	response_body = "File Not Found\n" # need to indicate end of the string with \n
+  	headers << "HTTP/1.1 404 Not Found"
+		headers << "Content-Type: text/plain" # is always text/plain
+		headers << "Content-Length: #{response_body.length}" # should the actual size of the response body
+		headers << "Connection: close"
+		headers = headers.join("\r\n")
 	end
 
 	client.puts(response_body)
