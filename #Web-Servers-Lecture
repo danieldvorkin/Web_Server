@@ -1,0 +1,30 @@
+#Web-Servers
+
+file = File.open("stuff.txt", "r") 	//Open the file and give it read permissions
+contents_of_file = file.read		//Apply the content of the file to a variable 
+puts contents_of_file				//Output the file contents to the screen
+file.close							//Close the file when done using
+
+//Print the contents of the file line by line
+File.open('stuff.txt', 'r').each_line do |line|
+	puts line 	//Outputs line by line of the file
+	wait 2 		//Delay each output by 2 seconds
+end
+
+File.open('new_stuff.txt', 'a') do |file_out|
+	File.open('stuff.txt', 'r').each_line do |line|
+		file_out.puts line
+	end
+end 
+
+- If the file io is being used in a block, then the "END" code will automatically close the fil
+
+#SOCKETS
+- 127.0.0.1(ip address) : 1234 (Port)
+- Each computer connected to a network has its own ip address
+- 1 to 1024 are the "well known" ports - meaning you cant use them
+- 20/21 -> FTP
+- 22 -> SSH
+- 37 -> Time Protocol
+- 80 -> HTTP (the web)
+- 
